@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Label } from './ui/label';
 import { Plane } from 'lucide-react';
 import { supabase } from '../utils/supabase/client';
-import { projectId } from '../utils/supabase/info';
+import { projectId, publicAnonKey } from '../utils/supabase/info';
 
 interface AuthPageProps {
   onLogin: (accessToken: string, userId: string) => void;
