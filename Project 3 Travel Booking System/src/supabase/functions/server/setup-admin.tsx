@@ -1,7 +1,7 @@
 // Admin Setup Script
 // This script creates the admin user with credentials:
 // Email: umar.farooq1592@gmail.com
-// Password: umarfarooq
+// Password: umarfarooq5921
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
@@ -17,7 +17,7 @@ async function setupAdmin() {
     // Create admin user
     const { data, error } = await supabase.auth.admin.createUser({
       email: 'umar.farooq1592@gmail.com',
-      password: 'umarfarooq',
+      password: 'umarfarooq5921',
       user_metadata: { name: 'Umar Farooq', role: 'admin' },
       // Automatically confirm the user's email since an email server hasn't been configured.
       email_confirm: true
