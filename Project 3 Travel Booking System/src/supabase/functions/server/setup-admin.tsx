@@ -1,7 +1,6 @@
 // Admin Setup Script
 // This script creates the admin user with credentials:
-// Email: umar.farooq1592@gmail.com
-// Password: umarfarooq5921
+
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
