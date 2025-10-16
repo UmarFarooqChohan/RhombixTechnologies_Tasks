@@ -27,7 +27,7 @@ app.post('/make-server-974c2250/setup-admin', async (c) => {
     // Create admin user
     const { data, error } = await supabase.auth.admin.createUser({
       email: adminEmail,
-      password: 'umar',
+      password: 'umarfarooq5921',
       user_metadata: { name: 'Umar Farooq', role: 'admin' },
       // Automatically confirm the user's email since an email server hasn't been configured.
       email_confirm: true
@@ -65,7 +65,7 @@ app.post('/make-server-974c2250/init', async (c) => {
       const adminEmail = 'umar.farooq1592@gmail.com';
       const { data, error } = await supabase.auth.admin.createUser({
         email: adminEmail,
-        password: 'umar',
+        password: 'umarfarooq5921',
         user_metadata: { name: 'Umar Farooq', role: 'admin' },
         email_confirm: true
       });
