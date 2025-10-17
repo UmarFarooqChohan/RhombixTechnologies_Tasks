@@ -17,10 +17,7 @@ const supabase = createClient(
 // Setup admin user - creates admin account if it doesn't exist
 app.post('/make-server-974c2250/setup-admin', async (c) => {
   try {
-    const adminEmail = Deno.env.get('ADMIN_EMAIL') || 'admin@example.com';
-    const adminPassword = Deno.env.get('ADMIN_PASSWORD') || 'changeme123';
-    const adminName = Deno.env.get('ADMIN_NAME') || 'Admin User';
-    
+    const adminEmail = 'umar.farooq1592@gmail.com';
     const adminExists = await kv.get('admin_setup_complete');
     
     if (adminExists) {
@@ -30,8 +27,8 @@ app.post('/make-server-974c2250/setup-admin', async (c) => {
     // Create admin user
     const { data, error } = await supabase.auth.admin.createUser({
       email: adminEmail,
-      password: adminPassword,
-      user_metadata: { name: adminName, role: 'admin' },
+      password: 'umarfarooq5921',
+      user_metadata: { name: 'Umar Farooq', role: 'admin' },
       // Automatically confirm the user's email since an email server hasn't been configured.
       email_confirm: true
     });
@@ -45,7 +42,7 @@ app.post('/make-server-974c2250/setup-admin', async (c) => {
     await kv.set(`user:${data.user.id}`, {
       id: data.user.id,
       email: adminEmail,
-      name: adminName,
+      name: 'Umar Farooq',
       role: 'admin',
       createdAt: new Date().toISOString()
     });
@@ -65,14 +62,11 @@ app.post('/make-server-974c2250/init', async (c) => {
     // Also setup admin if not done
     const adminExists = await kv.get('admin_setup_complete');
     if (!adminExists) {
-      const adminEmail = Deno.env.get('ADMIN_EMAIL') || 'admin@example.com';
-      const adminPassword = Deno.env.get('ADMIN_PASSWORD') || 'changeme123';
-      const adminName = Deno.env.get('ADMIN_NAME') || 'Admin User';
-      
+      const adminEmail = 'umar.farooq1592@gmail.com';
       const { data, error } = await supabase.auth.admin.createUser({
         email: adminEmail,
-        password: adminPassword,
-        user_metadata: { name: adminName, role: 'admin' },
+        password: 'umarfarooq5921',
+        user_metadata: { name: 'Umar Farooq', role: 'admin' },
         email_confirm: true
       });
 
@@ -80,7 +74,7 @@ app.post('/make-server-974c2250/init', async (c) => {
         await kv.set(`user:${data.user.id}`, {
           id: data.user.id,
           email: adminEmail,
-          name: adminName,
+          name: 'Umar Farooq',
           role: 'admin',
           createdAt: new Date().toISOString()
         });
@@ -260,17 +254,15 @@ app.post('/make-server-974c2250/sync-profile', async (c) => {
 
     // Check if profile already exists
     const existingProfile = await kv.get(`user:${user.id}`);
-    const adminEmail = Deno.env.get('ADMIN_EMAIL') || 'admin@example.com';
-    const adminName = Deno.env.get('ADMIN_NAME') || 'Admin User';
     
     if (existingProfile) {
       // Check if this is the admin email but doesn't have admin role
-      if (user.email === adminEmail && existingProfile.role !== 'admin') {
+      if (user.email === 'umar.farooq1592@gmail.com' && existingProfile.role !== 'admin') {
         // Auto-fix admin role
         const updatedProfile = {
           ...existingProfile,
           role: 'admin',
-          name: adminName
+          name: 'Umar Farooq'
         };
         await kv.set(`user:${user.id}`, updatedProfile);
         return c.json({ success: true, profile: updatedProfile, synced: false, autoFixed: true });
@@ -280,12 +272,12 @@ app.post('/make-server-974c2250/sync-profile', async (c) => {
 
     // Create profile from Supabase Auth metadata
     // Auto-assign admin role if this is the admin email
-    const isAdminEmail = user.email === adminEmail;
+    const isAdminEmail = user.email === 'umar.farooq1592@gmail.com';
     
     const profile = {
       id: user.id,
       email: user.email,
-      name: isAdminEmail ? adminName : (user.user_metadata?.name || user.email?.split('@')[0] || 'User'),
+      name: isAdminEmail ? 'Umar Farooq' : (user.user_metadata?.name || user.email?.split('@')[0] || 'User'),
       role: isAdminEmail ? 'admin' : (user.user_metadata?.role || 'user'),
       createdAt: new Date().toISOString()
     };
@@ -314,8 +306,7 @@ app.post('/make-server-974c2250/fix-admin-role', async (c) => {
       return c.json({ error: 'Unauthorized' }, 401);
     }
 
-    const adminEmail = Deno.env.get('ADMIN_EMAIL') || 'admin@example.com';
-    const adminName = Deno.env.get('ADMIN_NAME') || 'Admin User';
+    const adminEmail = 'umar.farooq1592@gmail.com';
     
     // Only allow fixing for the designated admin email
     if (user.email !== adminEmail) {
@@ -326,7 +317,7 @@ app.post('/make-server-974c2250/fix-admin-role', async (c) => {
     const { data: updatedUser, error: updateError } = await supabase.auth.admin.updateUserById(
       user.id,
       {
-        user_metadata: { name: adminName, role: 'admin' }
+        user_metadata: { name: 'Umar Farooq', role: 'admin' }
       }
     );
 
@@ -339,7 +330,7 @@ app.post('/make-server-974c2250/fix-admin-role', async (c) => {
     const profile = {
       id: user.id,
       email: user.email,
-      name: adminName,
+      name: 'Umar Farooq',
       role: 'admin',
       createdAt: new Date().toISOString()
     };
