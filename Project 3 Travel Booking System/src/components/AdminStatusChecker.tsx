@@ -206,18 +206,6 @@ export function AdminStatusChecker({ accessToken, userId, onAdminFixed }: AdminS
                     </div>
                   )}
                 </div>
-
-                {!result.isAdmin && (
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded">
-                    <h4 className="text-sm mb-2">How to become admin:</h4>
-                    <ol className="text-xs space-y-1 ml-4 list-decimal">
-                      <li>Log out of current account</li>
-                      <li>Login with: <strong>umar.farooq1592@gmail.com</strong></li>
-                      <li>Password: <strong>umar</strong></li>
-                      <li>The admin account should be auto-created on first app load</li>
-                    </ol>
-                  </div>
-                )}
               </>
             )}
           </div>
