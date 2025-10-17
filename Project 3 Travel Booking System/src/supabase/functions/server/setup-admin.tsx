@@ -1,6 +1,6 @@
 // Admin Setup Script
-// This script creates the admin user with credentials:
-
+// This script creates the admin user using environment variables
+// Set ADMIN_EMAIL, ADMIN_PASSWORD, and ADMIN_NAME in Supabase Edge Function settings
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
@@ -11,13 +11,24 @@ const supabase = createClient(
 
 async function setupAdmin() {
   try {
+    const adminEmail = Deno.env.get('ADMIN_EMAIL');
+    const adminPassword = Deno.env.get('ADMIN_PASSWORD');
+    const adminName = Deno.env.get('ADMIN_NAME') || 'Admin User';
+
+    if (!adminEmail || !adminPassword) {
+      console.error('ERROR: ADMIN_EMAIL and ADMIN_PASSWORD environment variables must be set!');
+      console.error('Go to Supabase Dashboard → Edge Functions → Settings to add them.');
+      return;
+    }
+
     console.log('Setting up admin user...');
+    console.log('Admin Email:', adminEmail);
 
     // Create admin user
     const { data, error } = await supabase.auth.admin.createUser({
-      email: 'umar.farooq1592@gmail.com',
-      password: 'umarfarooq5921',
-      user_metadata: { name: 'Umar Farooq', role: 'admin' },
+      email: adminEmail,
+      password: adminPassword,
+      user_metadata: { name: adminName, role: 'admin' },
       // Automatically confirm the user's email since an email server hasn't been configured.
       email_confirm: true
     });
@@ -34,8 +45,8 @@ async function setupAdmin() {
     const kvStoreModule = await import('./kv_store.tsx');
     await kvStoreModule.set(`user:${data.user.id}`, {
       id: data.user.id,
-      email: 'umar.farooq1592@gmail.com',
-      name: 'Umar Farooq',
+      email: adminEmail,
+      name: adminName,
       role: 'admin',
       createdAt: new Date().toISOString()
     });
