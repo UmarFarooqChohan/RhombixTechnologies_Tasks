@@ -90,6 +90,21 @@ npm run dev
     └── uploads/          # Uploaded images
 ```
 
+## Deployment
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
+### Quick Deploy Options:
+- **Railway** (Recommended): Easiest with built-in MySQL
+- **Render**: Free tier with external MySQL
+- **Vercel + PlanetScale**: Serverless option
+
+### Admin Credentials (Default)
+- Username: `admin`
+- Password: `admin`
+
+⚠️ **Important**: Change the default password after first login!
+
 ## Future Enhancements
 
 - User registration
