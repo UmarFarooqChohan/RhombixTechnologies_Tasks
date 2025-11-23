@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= post ? 'Edit' : 'Create' %> Post</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.tiny.cloud/1/g276oji3m4yqe9ajguk85jvtmrojt8v0fhinwr1eeidgmc10/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body>
+  <nav class="navbar admin-nav">
+    <div class="container">
+      <h1><%= post ? 'Edit' : 'Create' %> Post</h1>
+      <a href="/admin/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <form action="<%= post ? `/admin/posts/${post.id}?_method=PUT` : '/admin/posts' %>" 
+          method="POST" 
+          enctype="multipart/form-data" 
+          class="post-form">
+      
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" value="<%= post ? post.title : '' %>" required>
+      </div>
+
+      <div class="form-group">
+        <label>Category</label>
+        <select name="category" required>
+          <% categories.forEach(cat => { %>
+            <option value="<%= cat %>" <%= post && post.category === cat ? 'selected' : '' %>>
+              <%= cat %>
+            </option>
+          <% }); %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Tags (comma-separated)</label>
+        <input type="text" name="tags" value="<%= post && post.tags ? post.tags.join(', ') : '' %>" 
+               placeholder="e.g., javascript, tutorial, web">
+      </div>
+
+      <div class="form-group">
+        <label>Featured Image</label>
+        <input type="file" name="image" accept="image/*">
+        <% if (post && post.image) { %>
+          <img src="<%= post.image %>" alt="Current image" style="max-width: 200px; margin-top: 10px;">
+        <% } %>
+      </div>
+
+      <div class="form-group">
+        <label>Content</label>
+        <textarea id="editor" name="content"><%= post ? post.content : '' %></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        <%= post ? 'Update' : 'Create' %> Post
+      </button>
+    </form>
+  </div>
+
+  <script>
+    tinymce.init({
+      selector: '#editor',
+      height: 500,
+      menubar: false,
+      plugins: 'lists link image code',
+      toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
+      content_style: 'body { font-family: Arial, sans-serif; font-size: 14px; }'
+    });
+  </script>
+</body>
+</html>

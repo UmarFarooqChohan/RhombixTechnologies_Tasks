@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar admin-nav">
+    <div class="container">
+      <h1>Admin Dashboard</h1>
+      <div>
+        <a href="/" class="btn">View Site</a>
+        <a href="/admin/logout" class="btn">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="admin-stats">
+      <div class="stat-card">
+        <h3><%= posts.length %></h3>
+        <p>Total Posts</p>
+      </div>
+      <div class="stat-card">
+        <h3><%= comments.length %></h3>
+        <p>Total Comments</p>
+      </div>
+      <div class="stat-card">
+        <h3><%= users.length %></h3>
+        <p>Total Users</p>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div class="section-header">
+        <h2>Manage Posts</h2>
+        <a href="/admin/posts/new" class="btn btn-primary">Create New Post</a>
+      </div>
+      
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% posts.forEach(post => { %>
+            <tr>
+              <td><%= post.title %></td>
+              <td><%= post.category %></td>
+              <td><%= new Date(post.created_at).toLocaleDateString() %></td>
+              <td>
+                <a href="/post/<%= post.id %>" class="btn-small">View</a>
+                <a href="/admin/posts/<%= post.id %>/edit" class="btn-small">Edit</a>
+                <form action="/admin/posts/<%= post.id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="btn-small btn-danger" onclick="return confirm('Delete this post?')">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="admin-section">
+      <h2>Recent Comments</h2>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Comment</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% comments.slice(-10).reverse().forEach(comment => { %>
+            <tr>
+              <td><%= comment.name %></td>
+              <td><%= comment.content.substring(0, 50) %>...</td>
+              <td><%= new Date(comment.created_at).toLocaleDateString() %></td>
+              <td>
+                <button class="btn-small btn-danger" onclick="deleteComment(<%= comment.id %>)">Delete</button>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function deleteComment(id) {
+      if (confirm('Delete this comment?')) {
+        fetch(`/admin/comments/${id}`, { method: 'DELETE' })
+          .then(() => location.reload());
+      }
+    }
+  </script>
+</body>
+</html>
